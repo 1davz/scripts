@@ -1,3 +1,5 @@
+-- don't mind the messy code it works enough
+
 local LocalPlayer = game.Players.LocalPlayer
 local Humanoid = LocalPlayer.Character:WaitForChild("Humanoid")
 local weight = LocalPlayer.Backpack.Weight
@@ -6,21 +8,25 @@ LocalPlayer.CharacterAdded:Connect(function(Character)
 end)
 local muscleEvent = LocalPlayer.muscleEvent
 
--- Auto Rebirth
-local function autoRebirth()
-	while true do
-		task.wait(0.5)
-		if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("RebirthMenu") then
-			local rebirthButton = LocalPlayer.Character.RebirthMenu:WaitForChild("RebirthButton")
-			
-			-- Verifica a força necessária
-			local requiredMuscle = rebirthButton:GetAttribute("RequiredMuscle")
-			if requiredMuscle and Humanoid.Muscle >= requiredMuscle then
-				rebirthButton:Click()
-				task.wait(2)
+task.spawn(function()
+	while task.wait() do
+		for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+			if not v.Name:match("Punch") then
+				v.Parent = LocalPlayer.Character
+				task.wait()
+				v.Parent = LocalPlayer.Backpack
 			end
 		end
-		task.wait(0.5)
+	end
+end)
+
+while task.wait() do
+	task.wait(0.5)
+	muscleEvent:FireServer("rep")
+	-- One Hit Invicibility
+	Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+	if Humanoid.Health <= Humanoid.MaxHealth and Humanoid.Health >= 1 then
+		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 10000, 0)
 	end
 end
 
@@ -31,11 +37,11 @@ local function autoReconnect()
 		if LocalPlayer.Character == nil or LocalPlayer.Character:FindFirstChild("Humanoid") == nil then
 			pcall(function()
 				game:GetService("Players").LocalPlayer:Kick()
-				wait(2)
+				wait(5)
 				game.ReplicatedStorage.DefaultClientStateService:LoadDefaultClientState()
-				wait(3)
+				wait(5)
 				game:GetService("Players").LocalPlayer:Kick()
-				game:GetService("Players").LocalPlayer:Kick()
+				autoEquipSlot1()
 			end)
 		end
 	end
@@ -50,28 +56,5 @@ local function autoEquipSlot1()
 			slot1:Click()
 			task.wait(0.2)
 		end
-	end
-end
-
--- Auto Rebirth
-task.spawn(function()
-	autoRebirth()
-end)
-
--- Auto Reconnect
-task.spawn(function()
-	autoReconnect()
-end)
-
--- Auto Equip Slot 1
-task.spawn(function()
-	autoEquipSlot1()
-end)
-
-while task.wait() do
-	muscleEvent:FireServer("rep")
-	Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-	if Humanoid.Health <= Humanoid.MaxHealth and Humanoid.Health >= 1 then
-		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 10000, 0)
 	end
 end
