@@ -70,14 +70,64 @@ do
 end
 
 local tabs = Instance.new("Frame", main)
+tabs.Name = "Tabs"
 tabs.Size = UDim2.new(0, 90, 1, -28)
 tabs.Position = UDim2.new(0, 0, 0, 28)
 tabs.BackgroundTransparency = 1
 
 local content = Instance.new("Frame", main)
+content.Name = "Content"
 content.Size = UDim2.new(1, -90, 1, -28)
 content.Position = UDim2.new(0, 90, 0, 28)
 content.BackgroundTransparency = 1
+
+SimpleGuiLib.ScreenGui = sg
+SimpleGuiLib.Main = main
+SimpleGuiLib.Header = header
+SimpleGuiLib.Tabs = tabs
+SimpleGuiLib.Content = content
+
+local headerPadding = Instance.new("UIPadding", header)
+headerPadding.PaddingLeft = UDim.new(0, 8)
+
+local minBtn = Instance.new("TextButton", header)
+minBtn.Name = "MinimizeButton"
+minBtn.Size = UDim2.new(0, 28, 0, 28)
+minBtn.Position = UDim2.new(1, -28, 0, 0)
+minBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+minBtn.TextColor3 = Color3.new(1, 1, 1)
+minBtn.Font = Enum.Font.SourceSansBold
+minBtn.TextSize = 18
+minBtn.Text = "-"
+minBtn.BorderSizePixel = 0
+minBtn.ZIndex = 5
+
+local isMinimized = false
+local normalSize = UDim2.new(0, 320, 0, 300)
+local minSize = UDim2.new(0, 320, 0, 28)
+
+local function toggleMinimize()
+    isMinimized = not isMinimized
+    if isMinimized then
+        minBtn.Text = "+"
+        tabs.Visible = false
+        content.Visible = false
+        main.ClipsDescendants = true
+        main.Size = minSize
+    else
+        minBtn.Text = "-"
+        main.Size = normalSize
+        tabs.Visible = true
+        content.Visible = true
+    end
+end
+
+minBtn.MouseButton1Click:Connect(toggleMinimize)
+SimpleGuiLib.MinimizeButton = minBtn
+
+function SimpleGuiLib:ToggleMinimize()
+    toggleMinimize()
+end
 
 local pages = {}
 local curPage
