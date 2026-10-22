@@ -500,5 +500,5 @@ function SimpleGuiLib:Destroy()
         sg:Destroy()
     end
 end
-
+print("[SimpleGUI] GUI carregada!")
 return SimpleGuiLib
