@@ -77,6 +77,8 @@ local function setupMinimize()
         toggleMinimizeFunc = function() SimpleGuiLib:ToggleMinimize() end
     end
 
+setupMinimize()
+
 SimpleGuiLib:SetTitle("Teste do Título - Ok")
 
 
