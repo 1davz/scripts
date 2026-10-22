@@ -44,6 +44,39 @@ local function TesteButton()
 	print("Botão funcionando")
 end
 
+-- ========================================================================
+-- 5. CRIAÇÃO DA INTERFACE COM SimpleGUI
+-- ========================================================================
+
+-- Configuração do botão de Minimizar / Maximizar
+local toggleMinimizeFunc
+local function setupMinimize()
+    local parentGui
+    pcall(function()
+        if typeof(gethui) == "function" then
+            parentGui = gethui()
+        elseif game:GetService("CoreGui") then
+            parentGui = game:GetService("CoreGui")
+        end
+    end)
+    if not parentGui then
+        parentGui = player and player:FindFirstChild("PlayerGui")
+    end
+
+    local sg = (SimpleGuiLib and SimpleGuiLib.ScreenGui) or (parentGui and parentGui:FindFirstChild("SimpleGuiLib"))
+    if not sg then return end
+
+    local mainFrame = (SimpleGuiLib and SimpleGuiLib.Main) or sg:FindFirstChildOfClass("Frame")
+    if not mainFrame then return end
+
+    local header = (SimpleGuiLib and SimpleGuiLib.Header) or mainFrame:FindFirstChildOfClass("TextLabel")
+    if not header then return end
+
+    -- Conexão existente da biblioteca
+    if SimpleGuiLib and SimpleGuiLib.ToggleMinimize then
+        toggleMinimizeFunc = function() SimpleGuiLib:ToggleMinimize() end
+    end
+
 SimpleGuiLib:SetTitle("Teste do Título - Ok")
 
 
