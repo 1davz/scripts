@@ -371,6 +371,10 @@ function SimpleGuiLib.Draw.Text(x, y, str, color, size, parent)
 end
 
 function SimpleGuiLib:Slider(page, text, min, max, def, cb)
+    assert(
+        typeof(page) == "Instance" and page:IsA("GuiObject"),
+        "Slider: o parâmetro 'page' é inválido ou nil"
+    )
     local fr = Instance.new("Frame", page)
     fr.Size = UDim2.new(1,-12,0,30)
     fr.Position = UDim2.new(0,6,0,6+(#page:GetChildren()-1)*35)
