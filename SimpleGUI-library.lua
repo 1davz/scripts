@@ -441,7 +441,7 @@ end
 function SimpleGuiLib:Button(page, text, cb)
     local fr = Instance.new("Frame", page)
     fr.Size = UDim2.new(1,-12,0,30)
-    fr.Position = UDim2.new(0,6,0,6+(#page:GetChildren() - 1 * 35)
+    fr.Position = UDim2.new(0,6,0,6+(#page:GetChildren() - 1 * 35))
     fr.BackgroundColor3 = Color3.fromRGB(45,45,45)
     fr.BorderSizePixel = 0
 
