@@ -90,10 +90,36 @@ SimpleGuiLib.Content = content
 local headerPadding = Instance.new("UIPadding", header)
 headerPadding.PaddingLeft = UDim.new(0, 8)
 
+-- Botão Fechar (X) no canto superior direito
+local closeBtn = Instance.new("TextButton", header)
+closeBtn.Name = "CloseButton"
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -28, 0, 0)
+closeBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.TextSize = 16
+closeBtn.Text = "X"
+closeBtn.BorderSizePixel = 0
+closeBtn.ZIndex = 5
+
+closeBtn.MouseEnter:Connect(function()
+    closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+end)
+closeBtn.MouseLeave:Connect(function()
+    closeBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    SimpleGuiLib:Destroy()
+end)
+SimpleGuiLib.CloseButton = closeBtn
+
+-- Botão Minimizar (-) posicionado ao lado do botão fechar
 local minBtn = Instance.new("TextButton", header)
 minBtn.Name = "MinimizeButton"
 minBtn.Size = UDim2.new(0, 28, 0, 28)
-minBtn.Position = UDim2.new(1, -28, 0, 0)
+minBtn.Position = UDim2.new(1, -56, 0, 0)
 minBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 minBtn.TextColor3 = Color3.new(1, 1, 1)
 minBtn.Font = Enum.Font.SourceSansBold
